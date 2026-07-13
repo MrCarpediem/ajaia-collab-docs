@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - app-data:/app/data
+      - app-uploads:/app/uploads
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - JWT_SECRET=ajaia-collab-docs-secret-2026
+    restart: unless-stopped
+
+volumes:
+  app-data:
+  app-uploads:

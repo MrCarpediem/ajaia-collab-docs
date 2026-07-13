@@ -3,6 +3,7 @@
   <img src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white" />
   <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" />
   <img src="https://img.shields.io/badge/TipTap-ProseMirror-6366f1" />
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" />
   <img src="https://img.shields.io/badge/Tests-5%20Passing-10b981" />
 </p>
 
@@ -16,7 +17,7 @@
 
 ### Prerequisites
 
-- **Node.js** 18+ ([download](https://nodejs.org/))
+- **Node.js** 18+ ([download](https://nodejs.org/)) — *or just* **Docker**
 - **npm** 9+
 
 ### 1️⃣ Clone & Install Backend
@@ -33,7 +34,7 @@ npm install
 npm run seed
 ```
 
-This creates 4 demo users and 3 sample documents with rich text content and pre-configured sharing.
+Creates 4 demo users and 3 sample documents with rich text content and pre-configured sharing.
 
 ### 3️⃣ Start the Backend
 
@@ -53,7 +54,20 @@ npm run dev
 
 ### 5️⃣ Open & Login
 
-Visit **http://localhost:5173** and use any demo account below:
+Visit **http://localhost:5173** and use any demo account below.
+
+---
+
+## 🐳 Docker (One-Command Alternative)
+
+Skip all of the above — run everything with:
+
+```bash
+docker compose up --build
+# ✅ Full app running on http://localhost:3001
+```
+
+This builds the React frontend, bundles it into the Express server, auto-seeds the database, and starts everything on port **3001**. Data persists in Docker volumes.
 
 ---
 
@@ -134,6 +148,7 @@ npm test
 | **File Upload** | Multer + Mammoth.js | Multi-format support |
 | **Icons** | Lucide React | Clean, consistent icon set |
 | **Testing** | Vitest | Fast, Vite-native |
+| **Container** | Docker + Compose | One-command deployment |
 
 ---
 
@@ -141,15 +156,17 @@ npm test
 
 ```
 ajaia-collab-docs/
+├── Dockerfile                # Multi-stage production build
+├── docker-compose.yml        # One-command startup
 ├── server/
 │   ├── index.js              # Express entry point
 │   ├── db.js                 # SQLite schema & connection
 │   ├── seed.js               # Database seeder (users + docs)
-│   ├── db.test.js            # Automated tests
+│   ├── db.test.js            # Automated tests (5 tests)
 │   ├── middleware/
-│   │   └── auth.js           # JWT authentication
+│   │   └── auth.js           # JWT authentication middleware
 │   └── routes/
-│       ├── auth.js           # Login, user listing
+│       ├── auth.js           # Login, /me, user listing
 │       ├── documents.js      # CRUD, sharing endpoints
 │       └── upload.js         # File import & attachments
 ├── client/
@@ -163,7 +180,7 @@ ajaia-collab-docs/
 │   │   ├── components/
 │   │   │   ├── SharePanel.jsx
 │   │   │   └── UploadModal.jsx
-│   │   └── index.css         # Design system
+│   │   └── index.css         # Design system (dark theme)
 │   └── vite.config.js
 ├── README.md
 ├── ARCHITECTURE.md           # System design & decisions
@@ -191,7 +208,7 @@ ajaia-collab-docs/
 2. **Version history** — Snapshots on save with rollback support
 3. **Export to PDF/Markdown** — One-click export from the editor
 4. **Image embedding** — Drag images directly into document content
-5. **Deploy** — Dockerize + deploy to Render (API) and Vercel (frontend)
+5. **Cloud deploy** — Push Docker image to Render or Railway
 
 ---
 

@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: process.env.NODE_ENV === 'production' ? true : (process.env.CLIENT_URL || 'http://localhost:5173'),
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -32,10 +32,14 @@ app.get('/api/health', (req, res) => {
 
 // Serve static frontend in production
 if (process.env.NODE_ENV === 'production') {
+  // Docker copies build to ./public, local build lives at ../client/dist
+  const fs = await import('fs');
+  const publicDir = path.join(__dirname, 'public');
   const clientDist = path.join(__dirname, '..', 'client', 'dist');
-  app.use(express.static(clientDist));
+  const staticDir = fs.existsSync(publicDir) ? publicDir : clientDist;
+  app.use(express.static(staticDir));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(clientDist, 'index.html'));
+    res.sendFile(path.join(staticDir, 'index.html'));
   });
 }
 
