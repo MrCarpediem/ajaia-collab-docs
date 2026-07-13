@@ -1,118 +1,200 @@
-# Ajaia CollabDocs
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/TipTap-ProseMirror-6366f1" />
+  <img src="https://img.shields.io/badge/Tests-5%20Passing-10b981" />
+</p>
 
-A lightweight collaborative document editor built for the Ajaia LLC AI-Native Full Stack Developer Assignment.
+# 📝 Ajaia CollabDocs
 
-![CollabDocs Editor](https://img.shields.io/badge/status-complete-brightgreen)
+> A lightweight collaborative document editor with rich text editing, file import, and document sharing — built for the **Ajaia LLC AI-Native Full Stack Developer Assignment**.
 
-## Quick Start
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- npm 9+
 
-### Setup & Run
+- **Node.js** 18+ ([download](https://nodejs.org/))
+- **npm** 9+
+
+### 1️⃣ Clone & Install Backend
 
 ```bash
-# 1. Clone the repo
-git clone <repo-url>
-cd ajaia-collab-docs
-
-# 2. Install & seed the backend
-cd server
+git clone https://github.com/MrCarpediem/ajaia-collab-docs.git
+cd ajaia-collab-docs/server
 npm install
-npm run seed
-
-# 3. Start the backend (port 3001)
-npm run dev
-
-# 4. In a new terminal, install & start the frontend
-cd ../client
-npm install
-npm run dev
 ```
 
-The app will be running at **http://localhost:5173**
+### 2️⃣ Seed the Database
 
-### Test Accounts
+```bash
+npm run seed
+```
 
-| Email | Password | Notes |
-|-------|----------|-------|
-| alice@ajaia.com | password123 | Owns "Project Kickoff Notes" |
-| bob@ajaia.com | password123 | Owns "API Design Spec" |
-| carol@ajaia.com | password123 | No docs, for sharing tests |
-| prem@ajaia.com | password123 | Owns "Meeting Agenda", has shared access |
+This creates 4 demo users and 3 sample documents with rich text content and pre-configured sharing.
 
-### Running Tests
+### 3️⃣ Start the Backend
+
+```bash
+npm run dev
+# ✅ Server running on http://localhost:3001
+```
+
+### 4️⃣ Start the Frontend (new terminal)
+
+```bash
+cd ajaia-collab-docs/client
+npm install
+npm run dev
+# ✅ App running on http://localhost:5173
+```
+
+### 5️⃣ Open & Login
+
+Visit **http://localhost:5173** and use any demo account below:
+
+---
+
+## 🔐 Demo Accounts
+
+| User | Email | Password | Pre-loaded Data |
+|------|-------|----------|-----------------|
+| 👩 Alice Johnson | `alice@ajaia.com` | `password123` | Owns "Project Kickoff Notes" (shared with Bob & Prem) |
+| 👨 Bob Smith | `bob@ajaia.com` | `password123` | Owns "API Design Spec" (shared with Alice) |
+| 👩 Carol Davis | `carol@ajaia.com` | `password123` | No docs — great for testing sharing |
+| 👨 Prem Prakash | `prem@ajaia.com` | `password123` | Owns "Meeting Agenda", has view access to Alice's doc |
+
+---
+
+## ✨ Features
+
+### 📄 Document Creation & Editing
+- Create, rename, and delete documents
+- **Rich text editor** powered by [TipTap](https://tiptap.dev/) (ProseMirror)
+- Formatting: **Bold**, *Italic*, <u>Underline</u>, ~~Strikethrough~~, Highlight
+- Headings (H1, H2, H3), bullet lists, numbered lists
+- Blockquotes, code blocks, horizontal rules
+- Text alignment (left, center, right)
+- **Auto-save** — saves 1 second after you stop typing
+
+### 📁 File Upload & Import
+- **Import mode**: Upload `.txt`, `.md`, or `.docx` → auto-converts to editable document
+- **Attachment mode**: Attach files (`.txt`, `.md`, `.docx`, `.png`, `.jpg`, `.pdf`) to any document
+- Drag-and-drop or click-to-browse upload UI
+- Markdown parsing preserves headings, bold, italic, lists
+- `.docx` content extraction via [Mammoth.js](https://github.com/mwilliamson/mammoth.js)
+
+### 🤝 Document Sharing
+- Document owner can share with any registered user
+- **Two permission levels**: View (read-only) and Edit (full access)
+- Visual badges: `OWNER`, `CAN EDIT`, `VIEW ONLY`
+- Separate **"My Documents"** and **"Shared with Me"** tabs
+- Slide-out share panel to add/remove collaborators
+
+### 💾 Persistence
+- SQLite database with WAL mode for reliable writes
+- Documents, shares, and attachments persist across browser refresh
+- Rich text stored as TipTap JSON — preserves all formatting perfectly
+- Foreign key constraints with cascade deletes
+
+---
+
+## 🧪 Running Tests
 
 ```bash
 cd server
 npm test
 ```
 
-## Features
+```
+ ✓ should create a document
+ ✓ should update a document title
+ ✓ should create and query shares
+ ✓ should cascade delete shares when document is deleted
+ ✓ should store and parse document content as JSON
 
-### ✅ Document Creation & Editing
-- Create, rename, and delete documents
-- Rich text editing powered by TipTap (ProseMirror)
-- Bold, italic, underline, strikethrough, highlight
-- Headings (H1, H2, H3), bullet/numbered lists
-- Blockquotes, code blocks, horizontal rules
-- Text alignment (left, center, right)
-- Auto-save with debounce (1s)
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+```
 
-### ✅ File Upload
-- **Import mode**: Upload `.txt`, `.md`, or `.docx` files → creates editable documents
-- **Attachment mode**: Attach any supported file to a document
-- Drag-and-drop + click-to-browse upload UI
-- Markdown parsing preserves headings, bold, italic, lists
-- DOCX content extraction via Mammoth.js
+---
 
-### ✅ Sharing
-- Document owner can share with other users
-- Two permission levels: **View** (read-only) and **Edit** (full access)
-- Clear visual badges: "Owner", "Can Edit", "View Only"
-- Separate "My Documents" and "Shared with Me" tabs
-- Owner can add/remove shares via slide-out panel
+## 🏗️ Tech Stack
 
-### ✅ Persistence
-- SQLite database with WAL mode
-- Documents, shares, and attachments persist across refresh
-- Rich text content stored as TipTap JSON (preserves formatting)
-- Foreign key constraints with cascade deletes
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| **Frontend** | React 19 + Vite | Fast HMR, modern tooling |
+| **Rich Text** | TipTap (ProseMirror) | Best DX, extensible, schema-based |
+| **Styling** | Vanilla CSS + Design Tokens | Full control, no extra deps |
+| **Backend** | Node.js + Express | JS full stack, fast to build |
+| **Database** | SQLite (better-sqlite3) | Zero config, no cloud account needed |
+| **Auth** | JWT + bcrypt | Lightweight, production-ready pattern |
+| **File Upload** | Multer + Mammoth.js | Multi-format support |
+| **Icons** | Lucide React | Clean, consistent icon set |
+| **Testing** | Vitest | Fast, Vite-native |
 
-### ✅ Engineering Quality
-- 5 automated tests covering CRUD, sharing, cascade deletes, JSON persistence
-- JWT authentication with bcrypt password hashing
-- Input validation and error handling on all endpoints
-- Clean separation: API routes, middleware, database layer
-- Responsive design with mobile support
+---
 
-## Tech Stack
+## 📂 Project Structure
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19 + Vite |
-| Rich Text | TipTap (ProseMirror) |
-| Styling | Vanilla CSS with design tokens |
-| Backend | Node.js + Express |
-| Database | SQLite (better-sqlite3) |
-| Auth | JWT + bcrypt |
-| File Upload | Multer + Mammoth.js |
-| Icons | Lucide React |
-| Testing | Vitest |
+```
+ajaia-collab-docs/
+├── server/
+│   ├── index.js              # Express entry point
+│   ├── db.js                 # SQLite schema & connection
+│   ├── seed.js               # Database seeder (users + docs)
+│   ├── db.test.js            # Automated tests
+│   ├── middleware/
+│   │   └── auth.js           # JWT authentication
+│   └── routes/
+│       ├── auth.js           # Login, user listing
+│       ├── documents.js      # CRUD, sharing endpoints
+│       └── upload.js         # File import & attachments
+├── client/
+│   ├── src/
+│   │   ├── api/client.js     # Axios with auth interceptors
+│   │   ├── context/AuthContext.jsx
+│   │   ├── pages/
+│   │   │   ├── Login.jsx     # Auth page with quick-login
+│   │   │   ├── Dashboard.jsx # Doc grid, tabs, search
+│   │   │   └── Editor.jsx    # TipTap editor + toolbar
+│   │   ├── components/
+│   │   │   ├── SharePanel.jsx
+│   │   │   └── UploadModal.jsx
+│   │   └── index.css         # Design system
+│   └── vite.config.js
+├── README.md
+├── ARCHITECTURE.md           # System design & decisions
+├── AI_WORKFLOW.md            # AI tool usage notes
+└── SUBMISSION.md             # Deliverables checklist
+```
 
-## Intentional Scope Cuts
+---
 
-- **No real-time collaboration**: WebSocket sync adds significant complexity; auto-save is sufficient for the scope
-- **No version history**: Would require content diffing and versioned snapshots
-- **No commenting/suggestions**: Feature-rich but out of timebox scope
-- **No PDF export**: Would need a rendering library
-- **No role-based permissions beyond owner/viewer/editor**: Simple 2-level model covers the core use case
+## ✂️ Intentional Scope Cuts
 
-## What I Would Build Next (2-4 Hours)
+| Feature | Why Cut |
+|---------|---------|
+| Real-time collaboration | WebSocket sync adds significant complexity |
+| Version history | Requires content diffing and snapshot storage |
+| Commenting / suggestions | Rich feature, out of timebox |
+| PDF export | Needs a rendering library |
+| User registration UI | Seeded accounts keep the demo focused |
 
-1. **Real-time cursors**: WebSocket presence indicators showing who else is viewing
-2. **Document version history**: Store snapshots on save, allow rollback
-3. **Export to PDF/Markdown**: One-click export from the editor
-4. **Image embedding**: Drag-and-drop images directly into the editor content
-5. **Deployment**: Dockerize and deploy to Render (backend) + Vercel (frontend)
+---
+
+## 🔮 What I'd Build Next (2–4 Hours)
+
+1. **Real-time presence** — WebSocket indicators showing who's viewing
+2. **Version history** — Snapshots on save with rollback support
+3. **Export to PDF/Markdown** — One-click export from the editor
+4. **Image embedding** — Drag images directly into document content
+5. **Deploy** — Dockerize + deploy to Render (API) and Vercel (frontend)
+
+---
+
+## 📄 License
+
+Built for the Ajaia LLC assessment. Not for redistribution.
